@@ -1,353 +1,441 @@
-import React, { useState } from 'react';
-import { ZoomIn, ZoomOut, Home } from 'lucide-react';
-
-export default function SurfskatingFractalGrid() {
-  const [currentLevel, setCurrentLevel] = useState(1);
-
-  const zoomIn = () => setCurrentLevel(Math.max(0, currentLevel - 1));
-  const zoomOut = () => setCurrentLevel(Math.min(2, currentLevel + 1));
-  const resetView = () => setCurrentLevel(1);
-
-  // L0 Content (Single Cell)
-  const L0Content = {
-    core: "Flow Generation Mastery"
-  };
-
-  // L1 Content (3x3 Grid)
-  const L1Content = {
-    sun: {
-      title: "FLOW GENERATION",
-      icon: "⭐🌊⚡",
-      points: ["Wave-like Momentum", "Continuous Motion", "Coordinated Energy"]
-    },
-    planets: [
-      { id: "P1", title: "PUMP TECHNIQUE", icon: "🔄", points: ["Compression Drive", "Extension Power", "Speed Generation"] },
-      { id: "P2", title: "CARVING LINES", icon: "🌊", points: ["Path Selection", "Turn Radius", "Flow Optimization"] },
-      { id: "P3", title: "BALANCE CONTROL", icon: "⚖️", points: ["Weight Shifts", "Core Stability", "Recovery Skills"] },
-      { id: "P4", title: "BOARD SETUP", icon: "🛹", points: ["Truck Config", "Wheel Selection", "Board Geometry"] },
-      { id: "P5", title: "BODY POSITIONING", icon: "🕺", points: ["Stance Width", "Hip Movement", "Arm Balance"] },
-      { id: "P6", title: "TERRAIN READING", icon: "🗺️", points: ["Surface Analysis", "Slope Assessment", "Obstacle Navigation"] },
-      { id: "P7", title: "RHYTHM & TIMING", icon: "🎵", points: ["Beat Matching", "Momentum Sync", "Natural Flow"] },
-      { id: "P8", title: "PROGRESSIVE LINKING", icon: "🔗", points: ["Combination Flows", "Sequence Building", "Advanced Lines"] }
-    ]
-  };
-
-  // L2 Content (9x9 Grid - Each L1 planet expanded)
-  const L2Content = {
-    centralGrid: L1Content,
-    peripheralGrids: [
-      // P1: Pump Technique expanded
-      {
-        sun: { title: "PUMP TECHNIQUE", icon: "🔄", points: ["Core Coordination", "Power Generation", "Rhythm Control"] },
-        planets: [
-          { title: "Compression Phase", icon: "⬇️", points: ["Knee Bend", "Hip Drop", "Weight Load"] },
-          { title: "Extension Drive", icon: "⬆️", points: ["Leg Push", "Hip Thrust", "Power Release"] },
-          { title: "Speed Building", icon: "⚡", points: ["Acceleration", "Momentum Gain", "Flow Increase"] },
-          { title: "Front Foot Bias", icon: "👆", points: ["Nose Pressure", "Direction Control", "Turn Initiation"] },
-          { title: "Back Foot Drive", icon: "👇", points: ["Tail Power", "Speed Control", "Stability"] },
-          { title: "Leg Coordination", icon: "🦵", points: ["Sync Movement", "Power Transfer", "Balance"] },
-          { title: "Recovery Timing", icon: "🔄", points: ["Reset Position", "Flow Maintain", "Next Pump"] },
-          { title: "Flow Rhythm", icon: "🎯", points: ["Beat Consistency", "Natural Cadence", "Smooth Transitions"] }
-        ]
-      },
-      // P2: Carving Lines expanded
-      {
-        sun: { title: "CARVING LINES", icon: "🌊", points: ["Path Optimization", "Flow Dynamics", "Line Selection"] },
-        planets: [
-          { title: "Line Reading", icon: "👁️", points: ["Path Vision", "Flow Assessment", "Option Analysis"] },
-          { title: "Entry Angles", icon: "📐", points: ["Approach Speed", "Turn Setup", "Flow Entry"] },
-          { title: "Turn Radius", icon: "🎯", points: ["Arc Control", "Speed Management", "Flow Maintenance"] },
-          { title: "Apex Control", icon: "🔝", points: ["Peak Precision", "Speed Balance", "Direction Change"] },
-          { title: "Exit Flow", icon: "🚀", points: ["Speed Carry", "Next Line Setup", "Momentum Transfer"] },
-          { title: "S-Curves", icon: "〰️", points: ["Snake Lines", "Flow Chains", "Continuous Carving"] },
-          { title: "Banking Use", icon: "🏔️", points: ["Wall Riding", "Gravity Flow", "Speed Generation"] },
-          { title: "Line Linking", icon: "🔗", points: ["Path Connection", "Flow Continuity", "Sequence Building"] }
-        ]
-      },
-      // P3: Balance Control expanded
-      {
-        sun: { title: "BALANCE CONTROL", icon: "⚖️", points: ["Stability Mastery", "Dynamic Balance", "Recovery Skills"] },
-        planets: [
-          { title: "Weight Shifting", icon: "⚡", points: ["Heel/Toe Pressure", "Rail Control", "Turn Initiation"] },
-          { title: "Core Engagement", icon: "💪", points: ["Abdominal Control", "Stability Base", "Power Transfer"] },
-          { title: "Edge Control", icon: "🔪", points: ["Rail Pressure", "Lean Angles", "Grip Management"] },
-          { title: "Recovery Response", icon: "🎯", points: ["Quick Adjust", "Stability Return", "Flow Maintain"] },
-          { title: "Dynamic Stability", icon: "🌊", points: ["Moving Balance", "Flow State", "Adaptive Control"] },
-          { title: "Foot Pressure", icon: "👣", points: ["Pressure Points", "Board Feel", "Control Sensitivity"] },
-          { title: "Body Alignment", icon: "📏", points: ["Posture Control", "Center of Gravity", "Balance Point"] },
-          { title: "Reaction Training", icon: "⚡", points: ["Quick Response", "Instinctive Adjust", "Auto-Correction"] }
-        ]
-      },
-      // P4: Board Setup expanded
-      {
-        sun: { title: "BOARD SETUP", icon: "🛹", points: ["Equipment Optimization", "Performance Tuning", "Personal Config"] },
-        planets: [
-          { title: "Truck Geometry", icon: "🔧", points: ["Angle Settings", "Turn Response", "Stability Balance"] },
-          { title: "Bushing Selection", icon: "🟡", points: ["Hardness Choice", "Rebound Feel", "Turn Character"] },
-          { title: "Wheel Hardness", icon: "🎯", points: ["Grip Level", "Speed Factor", "Surface Match"] },
-          { title: "Wheel Size", icon: "📏", points: ["Roll Speed", "Acceleration", "Obstacle Clearance"] },
-          { title: "Board Length", icon: "📐", points: ["Stability Factor", "Turn Radius", "Pump Efficiency"] },
-          { title: "Wheelbase", icon: "📊", points: ["Turn Response", "Stability Balance", "Pump Power"] },
-          { title: "Deck Shape", icon: "🏄", points: ["Concave Design", "Foot Pocket", "Control Feel"] },
-          { title: "Personal Tuning", icon: "🎛️", points: ["Individual Preference", "Riding Style", "Skill Level"] }
-        ]
-      },
-      // P5: Body Positioning expanded
-      {
-        sun: { title: "BODY POSITIONING", icon: "🕺", points: ["Optimal Stance", "Movement Dynamics", "Flow Integration"] },
-        planets: [
-          { title: "Stance Width", icon: "📏", points: ["Foot Spacing", "Stability Base", "Control Range"] },
-          { title: "Foot Placement", icon: "👣", points: ["Board Position", "Control Points", "Power Transfer"] },
-          { title: "Hip Movement", icon: "🎯", points: ["Rotation Control", "Power Source", "Flow Direction"] },
-          { title: "Shoulder Align", icon: "📐", points: ["Upper Body", "Direction Control", "Balance Aid"] },
-          { title: "Arm Balance", icon: "🤲", points: ["Counter Balance", "Flow Aid", "Stability Support"] },
-          { title: "Knee Flex", icon: "🦵", points: ["Shock Absorption", "Power Ready", "Balance Control"] },
-          { title: "Head Position", icon: "👀", points: ["Vision Control", "Balance Reference", "Direction Focus"] },
-          { title: "Flow Posture", icon: "🌊", points: ["Relaxed Ready", "Dynamic Position", "Adaptive Stance"] }
-        ]
-      },
-      // P6: Terrain Reading expanded
-      {
-        sun: { title: "TERRAIN READING", icon: "🗺️", points: ["Environment Analysis", "Surface Intelligence", "Path Planning"] },
-        planets: [
-          { title: "Surface Grip", icon: "🤝", points: ["Traction Level", "Slip Risk", "Speed Adjust"] },
-          { title: "Slope Analysis", icon: "📈", points: ["Grade Assessment", "Speed Potential", "Energy Management"] },
-          { title: "Obstacle Detect", icon: "🚧", points: ["Hazard Spot", "Avoidance Path", "Safety Route"] },
-          { title: "Flow Lines", icon: "🌊", points: ["Natural Paths", "Energy Conservation", "Optimal Routes"] },
-          { title: "Surface Changes", icon: "🔄", points: ["Transition Zones", "Grip Variation", "Speed Adjustment"] },
-          { title: "Wind Factors", icon: "💨", points: ["Air Resistance", "Push/Pull Effects", "Speed Impact"] },
-          { title: "Light Conditions", icon: "☀️", points: ["Visibility Level", "Shadow Effects", "Surface Definition"] },
-          { title: "Traffic Awareness", icon: "👥", points: ["Other Riders", "Pedestrians", "Safe Spacing"] }
-        ]
-      },
-      // P7: Rhythm & Timing expanded
-      {
-        sun: { title: "RHYTHM & TIMING", icon: "🎵", points: ["Beat Synchronization", "Flow Timing", "Natural Cadence"] },
-        planets: [
-          { title: "Pump Rhythm", icon: "🔄", points: ["Beat Consistency", "Power Timing", "Flow Cycle"] },
-          { title: "Turn Timing", icon: "⏰", points: ["Entry/Exit Points", "Arc Duration", "Flow Continuity"] },
-          { title: "Speed Matching", icon: "⚡", points: ["Velocity Sync", "Flow Harmony", "Energy Balance"] },
-          { title: "Breath Control", icon: "💨", points: ["Oxygen Flow", "Relaxation", "Endurance"] },
-          { title: "Music Sync", icon: "🎶", points: ["Beat Matching", "Flow Enhancement", "Rhythm Riding"] },
-          { title: "Natural Cadence", icon: "🌿", points: ["Body Rhythm", "Instinctive Beat", "Flow State"] },
-          { title: "Transition Timing", icon: "🔄", points: ["Move Sequence", "Flow Changes", "Smooth Shifts"] },
-          { title: "Rest Intervals", icon: "⏸️", points: ["Recovery Timing", "Energy Management", "Flow Breaks"] }
-        ]
-      },
-      // P8: Progressive Linking expanded
-      {
-        sun: { title: "PROGRESSIVE LINKING", icon: "🔗", points: ["Sequence Building", "Flow Chains", "Advanced Integration"] },
-        planets: [
-          { title: "Basic Combos", icon: "1️⃣", points: ["Simple Links", "Two-Move Chains", "Foundation Building"] },
-          { title: "Flow Transitions", icon: "🌊", points: ["Smooth Changes", "Energy Carry", "Seamless Links"] },
-          { title: "Advanced Sequences", icon: "🎯", points: ["Complex Chains", "Multi-Element", "Skill Integration"] },
-          { title: "Creative Lines", icon: "🎨", points: ["Original Paths", "Unique Combos", "Personal Style"] },
-          { title: "Speed Variations", icon: "⚡", points: ["Tempo Changes", "Dynamic Speeds", "Flow Modulation"] },
-          { title: "Style Integration", icon: "🎭", points: ["Personal Flair", "Individual Expression", "Signature Moves"] },
-          { title: "Challenge Progression", icon: "📈", points: ["Difficulty Increase", "Skill Building", "Growth Path"] },
-          { title: "Flow Mastery", icon: "🏆", points: ["Effortless Links", "Intuitive Chains", "Natural Progression"] }
-        ]
-      }
-    ]
-  };
-
-  const renderL0 = () => (
-    <div className="flex items-center justify-center h-96 bg-gradient-to-br from-yellow-100 to-orange-200 border-4 border-yellow-500 rounded-2xl">
-      <div className="text-center">
-        <div className="text-6xl mb-4">⭐🌊⚡</div>
-        <h1 className="text-4xl font-bold text-orange-800">{L0Content.core}</h1>
-      </div>
-    </div>
-  );
-
-  const renderL1Cell = (content, isCenter = false) => {
-    const baseStyle = "border-2 border-gray-400 p-4 flex flex-col items-center justify-center text-center min-h-32";
-    const cellStyle = isCenter 
-      ? baseStyle + " bg-yellow-100 border-yellow-500 border-4"
-      : baseStyle + " bg-blue-50 hover:bg-blue-100 transition-colors";
-
-    return (
-      <div className={cellStyle}>
-        <div className="text-2xl mb-2">{content.icon}</div>
-        <div className={`font-bold text-sm mb-1 ${isCenter ? 'text-orange-800' : 'text-blue-800'}`}>
-          {content.title}
-        </div>
-        <div className="text-xs space-y-1">
-          {content.points.map((point, idx) => (
-            <div key={idx}>• {point}</div>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
-  const renderL1 = () => (
-    <div className="grid grid-cols-3 gap-0 border-4 border-gray-600 rounded-lg overflow-hidden">
-      {renderL1Cell(L1Content.planets[0])}
-      {renderL1Cell(L1Content.planets[1])}
-      {renderL1Cell(L1Content.planets[2])}
-      {renderL1Cell(L1Content.planets[3])}
-      {renderL1Cell(L1Content.sun, true)}
-      {renderL1Cell(L1Content.planets[4])}
-      {renderL1Cell(L1Content.planets[5])}
-      {renderL1Cell(L1Content.planets[6])}
-      {renderL1Cell(L1Content.planets[7])}
-    </div>
-  );
-
-  const renderSmallCell = (content, isCenter = false) => {
-    const baseStyle = "border border-gray-300 p-2 flex flex-col items-center justify-center text-center min-h-20";
-    const cellStyle = isCenter 
-      ? baseStyle + " bg-yellow-50 border-yellow-400"
-      : baseStyle + " bg-blue-25 hover:bg-blue-50 transition-colors";
-
-    return (
-      <div className={cellStyle}>
-        <div className="text-sm mb-1">{content.icon}</div>
-        <div className={`font-bold text-xs mb-1 ${isCenter ? 'text-orange-700' : 'text-blue-700'}`}>
-          {content.title}
-        </div>
-        <div className="text-xs opacity-75">
-          {content.points?.[0] || "Details"}
-        </div>
-      </div>
-    );
-  };
-
-  const render3x3Grid = (gridData, size = "small") => (
-    <div className={`grid grid-cols-3 gap-0 border-2 ${size === "small" ? "border-gray-400" : "border-gray-600"} rounded overflow-hidden`}>
-      {gridData.planets.slice(0, 3).map((planet, idx) => renderSmallCell(planet))}
-      {renderSmallCell(gridData.planets[3])}
-      {renderSmallCell(gridData.sun, true)}
-      {renderSmallCell(gridData.planets[4])}
-      {gridData.planets.slice(5, 8).map((planet, idx) => renderSmallCell(planet))}
-    </div>
-  );
-
-  const renderL2 = () => (
-    <div className="grid grid-cols-3 gap-2 p-4 border-4 border-gray-600 rounded-lg bg-gray-50">
-      {/* Top row of 3x3 grids */}
-      {render3x3Grid(L2Content.peripheralGrids[0])}
-      {render3x3Grid(L2Content.peripheralGrids[1])}
-      {render3x3Grid(L2Content.peripheralGrids[2])}
-      
-      {/* Middle row with central grid emphasized */}
-      {render3x3Grid(L2Content.peripheralGrids[3])}
-      <div className="border-4 border-yellow-500 rounded-lg p-1 bg-yellow-50">
-        {render3x3Grid(L2Content.centralGrid, "large")}
-      </div>
-      {render3x3Grid(L2Content.peripheralGrids[4])}
-      
-      {/* Bottom row of 3x3 grids */}
-      {render3x3Grid(L2Content.peripheralGrids[5])}
-      {render3x3Grid(L2Content.peripheralGrids[6])}
-      {render3x3Grid(L2Content.peripheralGrids[7])}
-    </div>
-  );
-
-  const getCurrentView = () => {
-    switch(currentLevel) {
-      case 0: return renderL0();
-      case 1: return renderL1();
-      case 2: return renderL2();
-      default: return renderL1();
-    }
-  };
-
-  return (
-    <div className="max-w-7xl mx-auto p-6 bg-white">
-      {/* Header */}
-      <div className="text-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">
-          SURFSKATING MASTERY - INTERACTIVE FRACTAL GRID
-        </h1>
-        <p className="text-lg text-gray-600">
-          Navigate through levels of detail with fractal zoom
-        </p>
-      </div>
-
-      {/* Controls */}
-      <div className="flex items-center justify-center gap-4 mb-6">
-        <button 
-          onClick={zoomIn}
-          disabled={currentLevel === 0}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 transition-colors"
-        >
-          <ZoomIn size={20} />
-          Zoom In
-        </button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surfskating Mastery - Interactive Fractal Grid</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background-color: #ffffff;
+        }
+        .icon { 
+            width: 20px; 
+            height: 20px; 
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState } = React;
         
-        <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg">
-          <span className="font-semibold">Level:</span>
-          <span className={`px-2 py-1 rounded ${
-            currentLevel === 0 ? 'bg-green-200 text-green-800' :
-            currentLevel === 1 ? 'bg-yellow-200 text-yellow-800' :
-            'bg-red-200 text-red-800'
-          }`}>
-            L{currentLevel}
-          </span>
-          <span className="text-sm text-gray-600">
-            ({currentLevel === 0 ? '1 cell' : currentLevel === 1 ? '9 cells' : '81 cells'})
-          </span>
-        </div>
+        // Icon components (replacing lucide-react)
+        const ZoomIn = ({ size = 20 }) => (
+            <svg 
+                className="icon" 
+                width={size} 
+                height={size}
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+            >
+                <circle cx="11" cy="11" r="8"/>
+                <path d="M21 21l-4.35-4.35"/>
+                <line x1="8" y1="11" x2="14" y2="11"/>
+                <line x1="11" y1="8" x2="11" y2="14"/>
+            </svg>
+        );
 
-        <button 
-          onClick={resetView}
-          className="flex items-center gap-2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
-        >
-          <Home size={20} />
-          Reset
-        </button>
-        
-        <button 
-          onClick={zoomOut}
-          disabled={currentLevel === 2}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 transition-colors"
-        >
-          <ZoomOut size={20} />
-          Zoom Out
-        </button>
-      </div>
+        const ZoomOut = ({ size = 20 }) => (
+            <svg 
+                className="icon" 
+                width={size} 
+                height={size}
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+            >
+                <circle cx="11" cy="11" r="8"/>
+                <path d="M21 21l-4.35-4.35"/>
+                <line x1="8" y1="11" x2="14" y2="11"/>
+            </svg>
+        );
 
-      {/* Current View */}
-      <div className="transition-all duration-500 ease-in-out">
-        {getCurrentView()}
-      </div>
+        const Home = ({ size = 20 }) => (
+            <svg 
+                className="icon" 
+                width={size} 
+                height={size}
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+            >
+                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                <polyline points="9,22 9,12 15,12 15,22"/>
+            </svg>
+        );
 
-      {/* Level Descriptions */}
-      <div className="mt-6 grid grid-cols-3 gap-4 text-sm">
-        <div className={`p-4 rounded-lg border-2 ${currentLevel === 0 ? 'border-green-500 bg-green-50' : 'border-gray-300 bg-gray-50'}`}>
-          <h3 className="font-bold text-green-800 mb-2">L0 - Core Principle</h3>
-          <p>Single organizing principle that coordinates all surfskating mastery</p>
-        </div>
-        <div className={`p-4 rounded-lg border-2 ${currentLevel === 1 ? 'border-yellow-500 bg-yellow-50' : 'border-gray-300 bg-gray-50'}`}>
-          <h3 className="font-bold text-yellow-800 mb-2">L1 - Major Elements</h3>
-          <p>8 key competency areas surrounding the central flow generation principle</p>
-        </div>
-        <div className={`p-4 rounded-lg border-2 ${currentLevel === 2 ? 'border-red-500 bg-red-50' : 'border-gray-300 bg-gray-50'}`}>
-          <h3 className="font-bold text-red-800 mb-2">L2 - Detailed Skills</h3>
-          <p>Each major element expanded into 8 specific skills and techniques</p>
-        </div>
-      </div>
+        // Complete Surfskating Fractal Grid Component
+        function SurfskatingFractalGrid() {
+            const [currentLevel, setCurrentLevel] = useState(1);
 
-      {/* Fractal Legend */}
-      <div className="mt-6 bg-gray-50 p-4 rounded-lg border">
-        <h3 className="font-bold text-gray-800 mb-3">Fractal Architecture Legend</h3>
-        <div className="grid grid-cols-2 gap-4 text-sm">
-          <div>
-            <span className="font-semibold">🌟 Sun Cells:</span> Coordinating principles at each level
-          </div>
-          <div>
-            <span className="font-semibold">🌍 Planet Cells:</span> Supporting elements that enable coordination
-          </div>
-          <div>
-            <span className="font-semibold">🔄 Fractal Scaling:</span> Each planet becomes a sun at the next detail level
-          </div>
-          <div>
-            <span className="font-semibold">⚡ Interactive Zoom:</span> Navigate between abstraction levels seamlessly
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+            const zoomIn = () => setCurrentLevel(Math.max(0, currentLevel - 1));
+            const zoomOut = () => setCurrentLevel(Math.min(2, currentLevel + 1));
+            const resetView = () => setCurrentLevel(1);
+
+            // L0 Content (Single Cell)
+            const L0Content = {
+                core: "Flow Generation Mastery"
+            };
+
+            // L1 Content (3x3 Grid)
+            const L1Content = {
+                sun: {
+                    title: "FLOW GENERATION",
+                    icon: "⭐🌊⚡",
+                    points: ["Wave-like Momentum", "Continuous Motion", "Coordinated Energy"]
+                },
+                planets: [
+                    { id: "P1", title: "PUMP TECHNIQUE", icon: "🔄", points: ["Compression Drive", "Extension Power", "Speed Generation"] },
+                    { id: "P2", title: "CARVING LINES", icon: "🌊", points: ["Path Selection", "Turn Radius", "Flow Optimization"] },
+                    { id: "P3", title: "BALANCE CONTROL", icon: "⚖️", points: ["Weight Shifts", "Core Stability", "Recovery Skills"] },
+                    { id: "P4", title: "BOARD SETUP", icon: "🛹", points: ["Truck Config", "Wheel Selection", "Board Geometry"] },
+                    { id: "P5", title: "BODY POSITIONING", icon: "🕺", points: ["Stance Width", "Hip Movement", "Arm Balance"] },
+                    { id: "P6", title: "TERRAIN READING", icon: "🗺️", points: ["Surface Analysis", "Slope Assessment", "Obstacle Navigation"] },
+                    { id: "P7", title: "RHYTHM & TIMING", icon: "🎵", points: ["Beat Matching", "Momentum Sync", "Natural Flow"] },
+                    { id: "P8", title: "PROGRESSIVE LINKING", icon: "🔗", points: ["Combination Flows", "Sequence Building", "Advanced Lines"] }
+                ]
+            };
+
+            // L2 Content (9x9 Grid - Each L1 planet expanded)
+            const L2Content = {
+                centralGrid: L1Content,
+                peripheralGrids: [
+                    // P1: Pump Technique expanded
+                    {
+                        sun: { title: "PUMP TECHNIQUE", icon: "🔄", points: ["Core Coordination", "Power Generation", "Rhythm Control"] },
+                        planets: [
+                            { title: "Compression Phase", icon: "⬇️", points: ["Knee Bend", "Hip Drop", "Weight Load"] },
+                            { title: "Extension Drive", icon: "⬆️", points: ["Leg Push", "Hip Thrust", "Power Release"] },
+                            { title: "Speed Building", icon: "⚡", points: ["Acceleration", "Momentum Gain", "Flow Increase"] },
+                            { title: "Front Foot Bias", icon: "👆", points: ["Nose Pressure", "Direction Control", "Turn Initiation"] },
+                            { title: "Back Foot Drive", icon: "👇", points: ["Tail Power", "Speed Control", "Stability"] },
+                            { title: "Leg Coordination", icon: "🦵", points: ["Sync Movement", "Power Transfer", "Balance"] },
+                            { title: "Recovery Timing", icon: "🔄", points: ["Reset Position", "Flow Maintain", "Next Pump"] },
+                            { title: "Flow Rhythm", icon: "🎯", points: ["Beat Consistency", "Natural Cadence", "Smooth Transitions"] }
+                        ]
+                    },
+                    // P2: Carving Lines expanded
+                    {
+                        sun: { title: "CARVING LINES", icon: "🌊", points: ["Path Optimization", "Flow Dynamics", "Line Selection"] },
+                        planets: [
+                            { title: "Line Reading", icon: "👁️", points: ["Path Vision", "Flow Assessment", "Option Analysis"] },
+                            { title: "Entry Angles", icon: "📐", points: ["Approach Speed", "Turn Setup", "Flow Entry"] },
+                            { title: "Turn Radius", icon: "🎯", points: ["Arc Control", "Speed Management", "Flow Maintenance"] },
+                            { title: "Apex Control", icon: "🔝", points: ["Peak Precision", "Speed Balance", "Direction Change"] },
+                            { title: "Exit Flow", icon: "🚀", points: ["Speed Carry", "Next Line Setup", "Momentum Transfer"] },
+                            { title: "S-Curves", icon: "〰️", points: ["Snake Lines", "Flow Chains", "Continuous Carving"] },
+                            { title: "Banking Use", icon: "🏔️", points: ["Wall Riding", "Gravity Flow", "Speed Generation"] },
+                            { title: "Line Linking", icon: "🔗", points: ["Path Connection", "Flow Continuity", "Sequence Building"] }
+                        ]
+                    },
+                    // P3: Balance Control expanded
+                    {
+                        sun: { title: "BALANCE CONTROL", icon: "⚖️", points: ["Stability Mastery", "Dynamic Balance", "Recovery Skills"] },
+                        planets: [
+                            { title: "Weight Shifting", icon: "⚡", points: ["Heel/Toe Pressure", "Rail Control", "Turn Initiation"] },
+                            { title: "Core Engagement", icon: "💪", points: ["Abdominal Control", "Stability Base", "Power Transfer"] },
+                            { title: "Edge Control", icon: "🔪", points: ["Rail Pressure", "Lean Angles", "Grip Management"] },
+                            { title: "Recovery Response", icon: "🎯", points: ["Quick Adjust", "Stability Return", "Flow Maintain"] },
+                            { title: "Dynamic Stability", icon: "🌊", points: ["Moving Balance", "Flow State", "Adaptive Control"] },
+                            { title: "Foot Pressure", icon: "👣", points: ["Pressure Points", "Board Feel", "Control Sensitivity"] },
+                            { title: "Body Alignment", icon: "📏", points: ["Posture Control", "Center of Gravity", "Balance Point"] },
+                            { title: "Reaction Training", icon: "⚡", points: ["Quick Response", "Instinctive Adjust", "Auto-Correction"] }
+                        ]
+                    },
+                    // P4: Board Setup expanded
+                    {
+                        sun: { title: "BOARD SETUP", icon: "🛹", points: ["Equipment Optimization", "Performance Tuning", "Personal Config"] },
+                        planets: [
+                            { title: "Truck Geometry", icon: "🔧", points: ["Angle Settings", "Turn Response", "Stability Balance"] },
+                            { title: "Bushing Selection", icon: "🟡", points: ["Hardness Choice", "Rebound Feel", "Turn Character"] },
+                            { title: "Wheel Hardness", icon: "🎯", points: ["Grip Level", "Speed Factor", "Surface Match"] },
+                            { title: "Wheel Size", icon: "📏", points: ["Roll Speed", "Acceleration", "Obstacle Clearance"] },
+                            { title: "Board Length", icon: "📐", points: ["Stability Factor", "Turn Radius", "Pump Efficiency"] },
+                            { title: "Wheelbase", icon: "📊", points: ["Turn Response", "Stability Balance", "Pump Power"] },
+                            { title: "Deck Shape", icon: "🏄", points: ["Concave Design", "Foot Pocket", "Control Feel"] },
+                            { title: "Personal Tuning", icon: "🎛️", points: ["Individual Preference", "Riding Style", "Skill Level"] }
+                        ]
+                    },
+                    // P5: Body Positioning expanded
+                    {
+                        sun: { title: "BODY POSITIONING", icon: "🕺", points: ["Optimal Stance", "Movement Dynamics", "Flow Integration"] },
+                        planets: [
+                            { title: "Stance Width", icon: "📏", points: ["Foot Spacing", "Stability Base", "Control Range"] },
+                            { title: "Foot Placement", icon: "👣", points: ["Board Position", "Control Points", "Power Transfer"] },
+                            { title: "Hip Movement", icon: "🎯", points: ["Rotation Control", "Power Source", "Flow Direction"] },
+                            { title: "Shoulder Align", icon: "📐", points: ["Upper Body", "Direction Control", "Balance Aid"] },
+                            { title: "Arm Balance", icon: "🤲", points: ["Counter Balance", "Flow Aid", "Stability Support"] },
+                            { title: "Knee Flex", icon: "🦵", points: ["Shock Absorption", "Power Ready", "Balance Control"] },
+                            { title: "Head Position", icon: "👀", points: ["Vision Control", "Balance Reference", "Direction Focus"] },
+                            { title: "Flow Posture", icon: "🌊", points: ["Relaxed Ready", "Dynamic Position", "Adaptive Stance"] }
+                        ]
+                    },
+                    // P6: Terrain Reading expanded
+                    {
+                        sun: { title: "TERRAIN READING", icon: "🗺️", points: ["Environment Analysis", "Surface Intelligence", "Path Planning"] },
+                        planets: [
+                            { title: "Surface Grip", icon: "🤝", points: ["Traction Level", "Slip Risk", "Speed Adjust"] },
+                            { title: "Slope Analysis", icon: "📈", points: ["Grade Assessment", "Speed Potential", "Energy Management"] },
+                            { title: "Obstacle Detect", icon: "🚧", points: ["Hazard Spot", "Avoidance Path", "Safety Route"] },
+                            { title: "Flow Lines", icon: "🌊", points: ["Natural Paths", "Energy Conservation", "Optimal Routes"] },
+                            { title: "Surface Changes", icon: "🔄", points: ["Transition Zones", "Grip Variation", "Speed Adjustment"] },
+                            { title: "Wind Factors", icon: "💨", points: ["Air Resistance", "Push/Pull Effects", "Speed Impact"] },
+                            { title: "Light Conditions", icon: "☀️", points: ["Visibility Level", "Shadow Effects", "Surface Definition"] },
+                            { title: "Traffic Awareness", icon: "👥", points: ["Other Riders", "Pedestrians", "Safe Spacing"] }
+                        ]
+                    },
+                    // P7: Rhythm & Timing expanded
+                    {
+                        sun: { title: "RHYTHM & TIMING", icon: "🎵", points: ["Beat Synchronization", "Flow Timing", "Natural Cadence"] },
+                        planets: [
+                            { title: "Pump Rhythm", icon: "🔄", points: ["Beat Consistency", "Power Timing", "Flow Cycle"] },
+                            { title: "Turn Timing", icon: "⏰", points: ["Entry/Exit Points", "Arc Duration", "Flow Continuity"] },
+                            { title: "Speed Matching", icon: "⚡", points: ["Velocity Sync", "Flow Harmony", "Energy Balance"] },
+                            { title: "Breath Control", icon: "💨", points: ["Oxygen Flow", "Relaxation", "Endurance"] },
+                            { title: "Music Sync", icon: "🎶", points: ["Beat Matching", "Flow Enhancement", "Rhythm Riding"] },
+                            { title: "Natural Cadence", icon: "🌿", points: ["Body Rhythm", "Instinctive Beat", "Flow State"] },
+                            { title: "Transition Timing", icon: "🔄", points: ["Move Sequence", "Flow Changes", "Smooth Shifts"] },
+                            { title: "Rest Intervals", icon: "⏸️", points: ["Recovery Timing", "Energy Management", "Flow Breaks"] }
+                        ]
+                    },
+                    // P8: Progressive Linking expanded
+                    {
+                        sun: { title: "PROGRESSIVE LINKING", icon: "🔗", points: ["Sequence Building", "Flow Chains", "Advanced Integration"] },
+                        planets: [
+                            { title: "Basic Combos", icon: "1️⃣", points: ["Simple Links", "Two-Move Chains", "Foundation Building"] },
+                            { title: "Flow Transitions", icon: "🌊", points: ["Smooth Changes", "Energy Carry", "Seamless Links"] },
+                            { title: "Advanced Sequences", icon: "🎯", points: ["Complex Chains", "Multi-Element", "Skill Integration"] },
+                            { title: "Creative Lines", icon: "🎨", points: ["Original Paths", "Unique Combos", "Personal Style"] },
+                            { title: "Speed Variations", icon: "⚡", points: ["Tempo Changes", "Dynamic Speeds", "Flow Modulation"] },
+                            { title: "Style Integration", icon: "🎭", points: ["Personal Flair", "Individual Expression", "Signature Moves"] },
+                            { title: "Challenge Progression", icon: "📈", points: ["Difficulty Increase", "Skill Building", "Growth Path"] },
+                            { title: "Flow Mastery", icon: "🏆", points: ["Effortless Links", "Intuitive Chains", "Natural Progression"] }
+                        ]
+                    }
+                ]
+            };
+
+            const renderL0 = () => (
+                <div className="flex items-center justify-center h-96 bg-gradient-to-br from-yellow-100 to-orange-200 border-4 border-yellow-500 rounded-2xl">
+                    <div className="text-center">
+                        <div className="text-6xl mb-4">⭐🌊⚡</div>
+                        <h1 className="text-4xl font-bold text-orange-800">{L0Content.core}</h1>
+                    </div>
+                </div>
+            );
+
+            const renderL1Cell = (content, isCenter = false) => {
+                const baseStyle = "border-2 border-gray-400 p-4 flex flex-col items-center justify-center text-center min-h-32";
+                const cellStyle = isCenter 
+                    ? baseStyle + " bg-yellow-100 border-yellow-500 border-4"
+                    : baseStyle + " bg-blue-50 hover:bg-blue-100 transition-colors";
+
+                return (
+                    <div className={cellStyle}>
+                        <div className="text-2xl mb-2">{content.icon}</div>
+                        <div className={`font-bold text-sm mb-1 ${isCenter ? 'text-orange-800' : 'text-blue-800'}`}>
+                            {content.title}
+                        </div>
+                        <div className="text-xs space-y-1">
+                            {content.points.map((point, idx) => (
+                                <div key={idx}>• {point}</div>
+                            ))}
+                        </div>
+                    </div>
+                );
+            };
+
+            const renderL1 = () => (
+                <div className="grid grid-cols-3 gap-0 border-4 border-gray-600 rounded-lg overflow-hidden">
+                    {renderL1Cell(L1Content.planets[0])}
+                    {renderL1Cell(L1Content.planets[1])}
+                    {renderL1Cell(L1Content.planets[2])}
+                    {renderL1Cell(L1Content.planets[3])}
+                    {renderL1Cell(L1Content.sun, true)}
+                    {renderL1Cell(L1Content.planets[4])}
+                    {renderL1Cell(L1Content.planets[5])}
+                    {renderL1Cell(L1Content.planets[6])}
+                    {renderL1Cell(L1Content.planets[7])}
+                </div>
+            );
+
+            const renderSmallCell = (content, isCenter = false) => {
+                const baseStyle = "border border-gray-300 p-2 flex flex-col items-center justify-center text-center min-h-20";
+                const cellStyle = isCenter 
+                    ? baseStyle + " bg-yellow-50 border-yellow-400"
+                    : baseStyle + " bg-blue-25 hover:bg-blue-50 transition-colors";
+
+                return (
+                    <div className={cellStyle}>
+                        <div className="text-sm mb-1">{content.icon}</div>
+                        <div className={`font-bold text-xs mb-1 ${isCenter ? 'text-orange-700' : 'text-blue-700'}`}>
+                            {content.title}
+                        </div>
+                        <div className="text-xs opacity-75">
+                            {content.points?.[0] || "Details"}
+                        </div>
+                    </div>
+                );
+            };
+
+            const render3x3Grid = (gridData, size = "small") => (
+                <div className={`grid grid-cols-3 gap-0 border-2 ${size === "small" ? "border-gray-400" : "border-gray-600"} rounded overflow-hidden`}>
+                    {gridData.planets.slice(0, 3).map((planet, idx) => (
+                        <React.Fragment key={idx}>{renderSmallCell(planet)}</React.Fragment>
+                    ))}
+                    {renderSmallCell(gridData.planets[3])}
+                    {renderSmallCell(gridData.sun, true)}
+                    {renderSmallCell(gridData.planets[4])}
+                    {gridData.planets.slice(5, 8).map((planet, idx) => (
+                        <React.Fragment key={idx + 5}>{renderSmallCell(planet)}</React.Fragment>
+                    ))}
+                </div>
+            );
+
+            const renderL2 = () => (
+                <div className="grid grid-cols-3 gap-2 p-4 border-4 border-gray-600 rounded-lg bg-gray-50">
+                    {/* Top row of 3x3 grids */}
+                    {render3x3Grid(L2Content.peripheralGrids[0])}
+                    {render3x3Grid(L2Content.peripheralGrids[1])}
+                    {render3x3Grid(L2Content.peripheralGrids[2])}
+                    
+                    {/* Middle row with central grid emphasized */}
+                    {render3x3Grid(L2Content.peripheralGrids[3])}
+                    <div className="border-4 border-yellow-500 rounded-lg p-1 bg-yellow-50">
+                        {render3x3Grid(L2Content.centralGrid, "large")}
+                    </div>
+                    {render3x3Grid(L2Content.peripheralGrids[4])}
+                    
+                    {/* Bottom row of 3x3 grids */}
+                    {render3x3Grid(L2Content.peripheralGrids[5])}
+                    {render3x3Grid(L2Content.peripheralGrids[6])}
+                    {render3x3Grid(L2Content.peripheralGrids[7])}
+                </div>
+            );
+
+            const getCurrentView = () => {
+                switch(currentLevel) {
+                    case 0: return renderL0();
+                    case 1: return renderL1();
+                    case 2: return renderL2();
+                    default: return renderL1();
+                }
+            };
+
+            return (
+                <div className="max-w-7xl mx-auto p-6 bg-white">
+                    {/* Header */}
+                    <div className="text-center mb-6">
+                        <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                            SURFSKATING MASTERY - INTERACTIVE FRACTAL GRID
+                        </h1>
+                        <p className="text-lg text-gray-600">
+                            Navigate through levels of detail with fractal zoom
+                        </p>
+                    </div>
+
+                    {/* Controls */}
+                    <div className="flex items-center justify-center gap-4 mb-6">
+                        <button 
+                            onClick={zoomIn}
+                            disabled={currentLevel === 0}
+                            className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 transition-colors"
+                        >
+                            <ZoomIn size={20} />
+                            Zoom In
+                        </button>
+                        
+                        <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg">
+                            <span className="font-semibold">Level:</span>
+                            <span className={`px-2 py-1 rounded ${
+                                currentLevel === 0 ? 'bg-green-200 text-green-800' :
+                                currentLevel === 1 ? 'bg-yellow-200 text-yellow-800' :
+                                'bg-red-200 text-red-800'
+                            }`}>
+                                L{currentLevel}
+                            </span>
+                            <span className="text-sm text-gray-600">
+                                ({currentLevel === 0 ? '1 cell' : currentLevel === 1 ? '9 cells' : '81 cells'})
+                            </span>
+                        </div>
+
+                        <button 
+                            onClick={resetView}
+                            className="flex items-center gap-2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                        >
+                            <Home size={20} />
+                            Reset
+                        </button>
+                        
+                        <button 
+                            onClick={zoomOut}
+                            disabled={currentLevel === 2}
+                            className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 transition-colors"
+                        >
+                            <ZoomOut size={20} />
+                            Zoom Out
+                        </button>
+                    </div>
+
+                    {/* Current View */}
+                    <div className="transition-all duration-500 ease-in-out">
+                        {getCurrentView()}
+                    </div>
+
+                    {/* Level Descriptions */}
+                    <div className="mt-6 grid grid-cols-3 gap-4 text-sm">
+                        <div className={`p-4 rounded-lg border-2 ${currentLevel === 0 ? 'border-green-500 bg-green-50' : 'border-gray-300 bg-gray-50'}`}>
+                            <h3 className="font-bold text-green-800 mb-2">L0 - Core Principle</h3>
+                            <p>Single organizing principle that coordinates all surfskating mastery</p>
+                        </div>
+                        <div className={`p-4 rounded-lg border-2 ${currentLevel === 1 ? 'border-yellow-500 bg-yellow-50' : 'border-gray-300 bg-gray-50'}`}>
+                            <h3 className="font-bold text-yellow-800 mb-2">L1 - Major Elements</h3>
+                            <p>8 key competency areas surrounding the central flow generation principle</p>
+                        </div>
+                        <div className={`p-4 rounded-lg border-2 ${currentLevel === 2 ? 'border-red-500 bg-red-50' : 'border-gray-300 bg-gray-50'}`}>
+                            <h3 className="font-bold text-red-800 mb-2">L2 - Detailed Skills</h3>
+                            <p>Each major element expanded into 8 specific skills and techniques</p>
+                        </div>
+                    </div>
+
+                    {/* Fractal Legend */}
+                    <div className="mt-6 bg-gray-50 p-4 rounded-lg border">
+                        <h3 className="font-bold text-gray-800 mb-3">Fractal Architecture Legend</h3>
+                        <div className="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <span className="font-semibold">🌟 Sun Cells:</span> Coordinating principles at each level
+                            </div>
+                            <div>
+                                <span className="font-semibold">🌍 Planet Cells:</span> Supporting elements that enable coordination
+                            </div>
+                            <div>
+                                <span className="font-semibold">🔄 Fractal Scaling:</span> Each planet becomes a sun at the next detail level
+                            </div>
+                            <div>
+                                <span className="font-semibold">⚡ Interactive Zoom:</span> Navigate between abstraction levels seamlessly
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Render the component
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(SurfskatingFractalGrid));
+    </script>
+</body>
+</html>
